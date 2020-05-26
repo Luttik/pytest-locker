@@ -1,8 +1,8 @@
 from invoke import task
 
 
-def simple_task(name: str, commands: str):
-    def caller(c):
+def simple_task(name: str, commands: str) -> task:
+    def caller(c):  # noqa
         c.run(f"echo running {name}")
         c.run(commands)
 

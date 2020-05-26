@@ -10,7 +10,7 @@ class UserDidNotExceptDataException(Exception):
 
 
 ENCODING = "UTF8"
-SEPERATOR = '-' * 40
+SEPERATOR = "-" * 40
 
 
 class Locker:
@@ -19,11 +19,11 @@ class Locker:
         self.call_counter = 0
         self.request = request
 
-    def __get_lock_base_path(self):
+    def __get_lock_base_path(self) -> str:
         node = self.request.node
-        return f'./.pytest_locker/{node.module.__name__}.{node.name}'
+        return f"./.pytest_locker/{node.module.__name__}.{node.name}"
 
-    def lock(self, data: str, name: str = None, extension: str = 'txt') -> None:
+    def lock(self, data: str, name: str = None, extension: str = "txt") -> None:
         """
         Checks if the given data equals the data in a lock file.
         Otherwise prompts the user if the data is correct.
@@ -34,9 +34,9 @@ class Locker:
         """
         self.call_counter += 1
         base = self.__get_lock_base_path()
-        lock_path = Path(f'{base}.{name if name else self.call_counter}.{extension}')
+        lock_path = Path(f"{base}.{name if name else self.call_counter}.{extension}")
         if lock_path.exists():
-            with lock_path.open('r', encoding=ENCODING) as file:
+            with lock_path.open("r", encoding=ENCODING) as file:
                 old_data = file.read()
             if old_data == data:
                 return
@@ -45,7 +45,7 @@ class Locker:
         else:
             self.__handle_new_value(data, lock_path)
 
-    def __handle_new_value(self, data: str, lock_path: Path):
+    def __handle_new_value(self, data: str, lock_path: Path) -> None:
         print(
             "\n".join(
                 [
@@ -62,7 +62,9 @@ class Locker:
         )
         self.__write_if_accepted(data, lock_path)
 
-    def __handle_with_file(self, lock_path: str, path: Path, value: str, name: str):
+    def __handle_with_file(
+        self, lock_path: str, path: Path, value: str, name: str
+    ) -> None:
         with path.open("r", encoding=ENCODING) as locked_response:
             locked_lines = locked_response.readlines()
 
@@ -94,24 +96,25 @@ class Locker:
                 ]
             )
         )
-        return self.__write_if_accepted(path, value,
-                                        "Do you accept the new data? (y|n)")
+        self.__write_if_accepted(value, path, "Do you accept the new data? (y|n)")
 
-    def __write_if_accepted(self, data: str, lock_path: Path):
+    def __write_if_accepted(
+        self, data: str, lock_path: Path, acceptance_request: str = None
+    ) -> None:
         lock_path.parent.mkdir(parents=True, exist_ok=True)
-        if self.__user_accepts():
-            with lock_path.open('w', encoding=ENCODING) as file:
+        if self.__user_accepts(acceptance_request):
+            with lock_path.open("w", encoding=ENCODING) as file:
                 file.write(data)
             return
         else:
             raise UserDidNotExceptDataException()
 
     @classmethod
-    def __user_accepts(cls):
+    def __user_accepts(cls, acceptance_request: str = None) -> bool:
         is_correct = None
-        while is_correct not in ['y', 'n']:
-            is_correct = input('Is this correct? (y|n)').lower()
-        return is_correct == 'y'
+        while is_correct not in ["y", "n"]:
+            is_correct = input(acceptance_request or "Is this correct? (y|n)").lower()
+        return is_correct == "y"
 
 
 @fixture
