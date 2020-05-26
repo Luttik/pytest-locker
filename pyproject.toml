@@ -1,8 +1,14 @@
 [tool.poetry]
 name = "test-locker"
-version = "0.1.0"
-description = ""
+version = "0.1.2"
+description = """ \
+Used to lock object during testing. \
+Essentially changing assertions from being hard coded to asserting that nothing changed \
+"""
 authors = ["Luttik <dtluttik@gmail.com>"]
+readme = "README.rst"
+license = "MIT"
+repository = "https://github.com/Luttik/test-locker"
 
 [tool.poetry.dependencies]
 python = "^3.7"

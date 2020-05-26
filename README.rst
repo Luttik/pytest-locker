@@ -37,6 +37,8 @@ Use
 - Step 1: Add ``from test_locker import locker`` to your
   `conftest.py <https://docs.pytest.org/en/2.7.3/plugins.html?highlight=re>`_ file
 - Step 2: To access the locker by adding it to the method parameters i.e. ``def test_example(locker)``
+- Step 3: Use ``locker.lock(your_string, optional_name)`` to lock the data.
+- Additionally: Don't forget to commit the ``.pytest_locker/`` directory for ci/cd testing
 
 And you're all set!
 
