@@ -1,3 +1,14 @@
+.. image:: https://github.com/luttik/test-locker/workflows/CI/badge.svg
+    :alt: actions batch
+    :target: https://github.com/Luttik/test-locker/actions?query=workflow%3ACI+branch%3Amaster
+.. image:: https://badge.fury.io/py/test-locker.svg
+    :alt: pypi
+    :target: https://pypi.org/project/test-locker/
+
+.. image:: https://codecov.io/gh/test-locker/branch/master/graph/badge.svg
+    :alt: codecov
+    :target: https://codecov.io/gh/luttik/test-locker
+
 Test-Locker
 -----------
 The test-locker can be used to "lock" data from during a test.
