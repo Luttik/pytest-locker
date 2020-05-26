@@ -5,7 +5,7 @@
     :alt: pypi
     :target: https://pypi.org/project/test-locker/
 
-.. image:: https://codecov.io/gh/test-locker/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/Luttik/test-locker/branch/master/graph/badge.svg
     :alt: codecov
     :target: https://codecov.io/gh/luttik/test-locker
 
