@@ -1,0 +1,4 @@
+[flake8]
+ignore = ANN101
+max-line-length = 88
+exclude = .venv, __pycache__, .py_cache, . ipynb_checkpoints, test_locker.egg-info

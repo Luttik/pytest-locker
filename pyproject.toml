@@ -1,0 +1,43 @@
+[tool.poetry]
+name = "test-locker"
+version = "0.1.0"
+description = ""
+authors = ["Luttik <dtluttik@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+pytest = "^5.4.2"
+
+[tool.poetry.dev-dependencies]
+pytest = "^5.2"
+invoke = "^1.4.1"
+black = "^19.10b0"
+flake8 = "^3.8.2"
+flake8-annotations = "^2.0.1"
+isort = "^4.3.21"
+coverage = {extras = ["toml"], version = "^5.0.4"}
+pytest-cov = "^2.8.1"
+flake8-black = "^0.1.1"
+codecov = "^2.0.22"
+flake8-isort = "^3.0.0"
+
+[tool.isort]
+include_trailing_comma=true
+line_length=88
+use_parentheses=true
+
+[tool.coverage.paths]
+source = ["src", "*/site-packages"]
+
+[tool.coverage.run]
+branch = true
+source = ["test_locker"]
+
+[tool.coverage.report]
+show_missing = true
+fail_under = 0
+exclude_lines = ["raise NotImplementedError"]
+
+[build-system]
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"

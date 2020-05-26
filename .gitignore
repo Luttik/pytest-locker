@@ -1,0 +1,9 @@
+.pytest_cache/
+.idea/
+*.egg-info/
+**/__pycache__/
+dist/
+.venv/
+/.coverage
+**/.ipynb_checkpoints/*
+/coverage.xml
