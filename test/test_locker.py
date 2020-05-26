@@ -5,9 +5,9 @@ def test_locker(locker: Locker):
     value = "test string 1"
     locker.lock(value)
     with open(
-            '.pytest_locker/test.test_locker.test_locker1.txt'
+            '.pytest_locker/test.test_locker.test_locker.1.txt'
     ) as lock:
-        assert lock.read == value
+        assert lock.read() == value
 
 
 def test_locker_with_name(locker: Locker):
@@ -16,4 +16,4 @@ def test_locker_with_name(locker: Locker):
     with open(
             '.pytest_locker/test.test_locker.test_locker_with_name.this is my name.txt'
     ) as lock:
-        assert lock.read == value
+        assert lock.read() == value
