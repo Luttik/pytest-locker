@@ -85,8 +85,8 @@ class Locker:
                     *difflib.unified_diff(
                         old_data.splitlines(True),
                         new_data.splitlines(True),
-                        fromfile=str(path),
-                        tofile="new response",
+                        fromfile=f"old value: ({path})",
+                        tofile="new value",
                     ),
                     SEPERATOR,
                 ]
