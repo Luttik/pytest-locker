@@ -41,7 +41,7 @@ source = ["test_locker"]
 
 [tool.coverage.report]
 show_missing = true
-fail_under = 0
+fail_under = 100
 exclude_lines = ["raise NotImplementedError"]
 
 [build-system]

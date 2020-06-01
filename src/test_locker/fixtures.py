@@ -5,7 +5,7 @@ from _pytest.fixtures import FixtureRequest
 from pytest import fixture
 
 
-class UserDidNotExceptDataException(Exception):
+class UserDidNotAcceptDataException(Exception):
     ...
 
 
@@ -40,6 +40,8 @@ class Locker:
                 old_data = file.read()
             if old_data == data:
                 return
+            else:
+                self.__handle_with_file(lock_path, data, old_data, name)
         else:
             self.__handle_new_value(data, lock_path)
 
@@ -61,13 +63,9 @@ class Locker:
         self.__write_if_accepted(data, lock_path)
 
     def __handle_with_file(
-        self, lock_path: str, path: Path, value: str, name: str
+        self, path: Path, new_data: str, old_data: str, name: str
     ) -> None:
-        with path.open("r", encoding=ENCODING) as locked_response:
-            locked_lines = locked_response.readlines()
 
-        if "".join(locked_lines) == value:
-            return True
         print(
             "\n".join(
                 [
@@ -76,25 +74,25 @@ class Locker:
                     "the response and lock was found:",
                     "LOCKED VALUE: ",
                     SEPERATOR,
-                    "".join(locked_lines),
+                    old_data,
                     SEPERATOR,
                     "\nNEW VALUE: ",
                     SEPERATOR,
-                    value,
+                    new_data,
                     SEPERATOR,
                     "\nDIFF:",
                     SEPERATOR,
                     *difflib.unified_diff(
-                        locked_lines,
-                        value.splitlines(True),
-                        fromfile=lock_path,
-                        tofile="new response",
+                        old_data.splitlines(True),
+                        new_data.splitlines(True),
+                        fromfile=f"old value: ({path})",
+                        tofile="new value",
                     ),
                     SEPERATOR,
                 ]
             )
         )
-        self.__write_if_accepted(value, path, "Do you accept the new data? (y|n)")
+        self.__write_if_accepted(new_data, path, "Do you accept the new data? (y|n)")
 
     def __write_if_accepted(
         self, data: str, lock_path: Path, acceptance_request: str = None
@@ -105,7 +103,7 @@ class Locker:
                 file.write(data)
             return
         else:
-            raise UserDidNotExceptDataException()
+            raise UserDidNotAcceptDataException()
 
     @classmethod
     def __user_accepts(cls, acceptance_request: str = None) -> bool:
