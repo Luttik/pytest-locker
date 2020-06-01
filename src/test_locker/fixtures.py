@@ -40,8 +40,6 @@ class Locker:
                 old_data = file.read()
             if old_data == data:
                 return
-            else:
-                pass
         else:
             self.__handle_new_value(data, lock_path)
 
