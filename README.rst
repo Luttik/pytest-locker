@@ -24,7 +24,7 @@ Why use Locker
   - Lock files, and changes to them, are easy to interpret. 
     Therefore, evaluting them in pull-requests a great method of quality controll. 
 
-install
+Install
 =======
 run ``pip install pytest-locker``
 
