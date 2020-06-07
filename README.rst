@@ -38,6 +38,13 @@ Use
 
 And you're all set!
 
+Tip
+===
+When using locks to test your file it is even more important than usual that the
+`pytest rootdir <https://docs.pytest.org/en/latest/customize.html>`_ is fixed.
+Click the `link <https://docs.pytest.org/en/latest/customize.html>`_ for all the options
+(one is adding a ``pytest.ini`` to the root folder).
+
 The Locker test Flows
 =====================
 There are two modes based on for locking.

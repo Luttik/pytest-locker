@@ -19,9 +19,12 @@ class Locker:
         self.call_counter = 0
         self.request = request
 
-    def __get_lock_base_path(self) -> str:
+    def __get_lock_base_path(self) -> Path:
         node = self.request.node
-        return f"./.pytest_locker/{node.module.__name__}.{node.name}"
+        session_path = Path(self.request.session.fspath)
+        return session_path.joinpath(
+            f".pytest_locker/{node.module.__name__}.{node.name}"
+        ).absolute()
 
     def lock(self, data: str, name: str = None, extension: str = "txt") -> None:
         """

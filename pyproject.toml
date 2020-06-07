@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-locker"
-version = "0.1.5"
+version = "0.2.0"
 description = """ \
 Used to lock object during testing. \
 Essentially changing assertions from being hard coded to asserting that nothing changed \
@@ -15,7 +15,7 @@ python = "^3.7"
 pytest = "^5.4.2"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+pytest = "^5.4"
 invoke = "^1.4.1"
 black = "^19.10b0"
 flake8 = "^3.8.2"
