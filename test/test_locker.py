@@ -2,8 +2,8 @@ from unittest.mock import mock_open, patch
 
 from pytest import raises
 
-from test_locker import Locker
-from test_locker.fixtures import UserDidNotAcceptDataException
+from pytest_locker import Locker
+from pytest_locker.fixtures import UserDidNotAcceptDataException
 
 
 def test_locker(locker: Locker) -> None:

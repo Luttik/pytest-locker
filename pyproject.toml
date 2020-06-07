@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "test-locker"
-version = "0.1.2"
+name = "pytest-locker"
+version = "0.1.5"
 description = """ \
 Used to lock object during testing. \
 Essentially changing assertions from being hard coded to asserting that nothing changed \
@@ -8,7 +8,7 @@ Essentially changing assertions from being hard coded to asserting that nothing 
 authors = ["Luttik <dtluttik@gmail.com>"]
 readme = "README.rst"
 license = "MIT"
-repository = "https://github.com/Luttik/test-locker"
+repository = "https://github.com/Luttik/pytest-locker"
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -37,7 +37,7 @@ source = ["src", "*/site-packages"]
 
 [tool.coverage.run]
 branch = true
-source = ["test_locker"]
+source = ["pytest_locker"]
 
 [tool.coverage.report]
 show_missing = true

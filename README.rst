@@ -1,16 +1,16 @@
-.. image:: https://github.com/luttik/test-locker/workflows/CI/badge.svg
+.. image:: https://github.com/luttik/pytest-locker/workflows/CI/badge.svg
     :alt: actions batch
-    :target: https://github.com/Luttik/test-locker/actions?query=workflow%3ACI+branch%3Amaster
-.. image:: https://badge.fury.io/py/test-locker.svg
+    :target: https://github.com/Luttik/pytest-locker/actions?query=workflow%3ACI+branch%3Amaster
+.. image:: https://badge.fury.io/py/pytest-locker.svg
     :alt: pypi
-    :target: https://pypi.org/project/test-locker/
+    :target: https://pypi.org/project/pytest-locker/
 
-.. image:: https://codecov.io/gh/Luttik/test-locker/branch/master/graph/badge.svg
+.. image:: https://codecov.io/gh/Luttik/pytest-locker/branch/master/graph/badge.svg
     :alt: codecov
-    :target: https://codecov.io/gh/luttik/test-locker
+    :target: https://codecov.io/gh/luttik/pytest-locker
 
-Test-Locker
------------
+PyTest-Locker
+-------------
 The test-locker can be used to "lock" data from during a test.
 This means that rather than having to manually specify the expected output
 you lock the data when it corresponds to expected bahaviour.
@@ -26,11 +26,11 @@ Why use Locker
 
 install
 =======
-run ``pip install test-locker``
+run ``pip install pytest-locker``
 
 Use
 ===
-- Step 1: Add ``from test_locker import locker`` to your
+- Step 1: Add ``from pytest_locker import locker`` to your
   `conftest.py <https://docs.pytest.org/en/2.7.3/plugins.html?highlight=re>`_ file
 - Step 2: To access the locker by adding it to the method parameters i.e. ``def test_example(locker)``
 - Step 3: Use ``locker.lock(your_string, optional_name)`` to lock the data.
@@ -54,7 +54,7 @@ There are two modes based on for locking.
 
 The Locker class
 ================
-You can also use ``test_locker.Locker`` (i.e. the class of which the ``locker`` fixture returns an instance).
+You can also use ``pytest_locker.Locker`` (i.e. the class of which the ``locker`` fixture returns an instance).
 directly to create fixtures that locks a (non-string) object without needing to turn the object into a string it.
 
 Examples

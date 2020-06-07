@@ -7,3 +7,4 @@ dist/
 /.coverage
 **/.ipynb_checkpoints/*
 /coverage.xml
+**/__scratch.py
