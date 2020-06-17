@@ -49,7 +49,7 @@ The Locker test Flows
 =====================
 There are two modes based on for locking.
 
-- When user input is allowed, i.e. when running pytest with ``--capture  no``
+- When user input is allowed, i.e. when running pytest with ``--capture  no`` or ``-s``
 
   When user input is allowed and the given data does not correspond to the data in the lock
   the *user is prompted* if the new data should be stored or if the tests should fail.
