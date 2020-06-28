@@ -85,20 +85,18 @@ class Locker:
                     SEPERATOR,
                     "\nDIFF:",
                     SEPERATOR,
-                    self.get_diff(old_data, new_data, path),
+                    self.get_diff(old_data, new_data),
                     SEPERATOR,
                 ]
             )
         )
         self.__write_if_accepted(new_data, path, "Do you accept the new data? (y|n)")
 
-    def get_diff(self, old_data: str, new_data: str, path: Path):
+    def get_diff(self, old_data: str, new_data: str):
         return "".join(
             difflib.unified_diff(
                 old_data.splitlines(True),
                 new_data.splitlines(True),
-                fromfile=f"old value: ({path})",
-                tofile="new value",
             )
         )
 
