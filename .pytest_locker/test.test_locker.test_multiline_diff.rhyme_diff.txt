@@ -1,0 +1,35 @@
+@rhymeWARNING: The following difference between the response and lock was found:
+LOCKED VALUE: 
+----------------------------------------
+This rihme rhyme
+Ain't single-line
+See, the changes printing is neat
+
+Even after some whitespace
+
+----------------------------------------
+
+NEW VALUE: 
+----------------------------------------
+This rhyme rhyme
+Is multi-line
+Observe, the difference printing is sublime
+
+Even after a blank line
+----------------------------------------
+
+DIFF:
+----------------------------------------
+--- old value: (C:\workspace\pytest-locker\.pytest_locker\test.test_locker.test_multiline_diff.rhyme.txt)
++++ new value
+@@ -1,5 +1,5 @@
+-This rihme rhyme
+-Ain't single-line
+-See, the changes printing is neat
++This rhyme rhyme
++Is multi-line
++Observe, the difference printing is sublime
+ 
+-Even after some whitespace
++Even after a blank line
+----------------------------------------

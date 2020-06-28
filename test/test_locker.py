@@ -1,6 +1,7 @@
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
+from _pytest.capture import CaptureFixture
 from pytest import raises
 
 from pytest_locker import Locker
@@ -50,3 +51,26 @@ def test_locker_without_file_accepted(locker: Locker) -> None:
         assert len(write_call[1]) == 1
         assert len(write_call[2]) == 0
         assert write_call[1][0] == "File has different context"
+
+
+def test_multiline_diff(locker: Locker, capsys: CaptureFixture) -> None:
+    rhyme = "\n".join(
+        x.strip()
+        for x in """
+        This rhyme rhyme
+        Is multi-line
+        Observe, the difference printing is sublime
+        
+        Even after a blank line
+        """.strip().split(
+            "\n"
+        )
+    )
+    with patch("builtins.input", lambda *args: "n"), raises(
+        UserDidNotAcceptDataException
+    ):
+        locker.lock(rhyme, "rhyme")
+    captured = capsys.readouterr()
+    captured_out = captured.out
+    with capsys.disabled():
+        locker.lock(captured_out, "rhyme_diff")
