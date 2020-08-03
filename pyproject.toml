@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-locker"
-version = "0.2.0"
+version = "0.2.2"
 description = """ \
 Used to lock object during testing. \
 Essentially changing assertions from being hard coded to asserting that nothing changed \
