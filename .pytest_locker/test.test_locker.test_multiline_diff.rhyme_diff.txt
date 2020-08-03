@@ -20,8 +20,6 @@ Even after a blank line
 
 DIFF:
 ----------------------------------------
---- 
-+++ 
 @@ -1,5 +1,5 @@
 -This rihme rhyme
 -Ain't single-line
