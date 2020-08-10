@@ -11,7 +11,7 @@
 
 .. image:: ./example.svg
     :alt: example image
-    :width: 75%
+    :width: 60%
     :align: center 
 
 PyTest-Locker
