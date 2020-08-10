@@ -11,6 +11,7 @@
 
 .. image:: ./example.svg
     :alt: example image
+    :width: 50%
 
 PyTest-Locker
 -------------
