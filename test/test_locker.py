@@ -59,8 +59,7 @@ def test_multiline_diff(locker: Locker, capsys: CaptureFixture) -> None:
         for x in """
         This rhyme rhyme
         Is multi-line
-        Observe, the difference printing is sublime
-        
+        Observe, the difference printing is sublime\n
         Even after a blank line
         """.strip().split(
             "\n"

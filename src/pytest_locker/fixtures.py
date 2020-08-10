@@ -92,13 +92,12 @@ class Locker:
         )
         self.__write_if_accepted(new_data, path, "Do you accept the new data? (y|n)")
 
-    def get_diff(self, old_data: str, new_data: str):
+    def get_diff(self, old_data: str, new_data: str) -> str:
         diff = difflib.unified_diff(
             old_data.splitlines(True), new_data.splitlines(True),
         )
 
-        # noinspection PyUnusedLocal
-        ignored_from_file, ignored_to_file = next(diff), next(diff)
+        ignored_from_file, ignored_to_file = next(diff), next(diff)  # noqa
 
         return "".join(diff)
 
