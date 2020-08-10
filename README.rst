@@ -4,10 +4,13 @@
 .. image:: https://badge.fury.io/py/pytest-locker.svg
     :alt: pypi
     :target: https://pypi.org/project/pytest-locker/
-
 .. image:: https://codecov.io/gh/Luttik/pytest-locker/branch/master/graph/badge.svg
     :alt: codecov
     :target: https://codecov.io/gh/luttik/pytest-locker
+
+
+.. image:: ./example.svg
+    :alt: example image
 
 PyTest-Locker
 -------------
