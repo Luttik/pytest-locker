@@ -9,10 +9,10 @@
     :target: https://codecov.io/gh/luttik/pytest-locker
 
 
-.. image:: https://raw.githubusercontent.com/Luttik/pytest-locker/master/example.svg
+.. image:: https://raw.githubusercontent.com/Luttik/pytest-locker/master/example.png
     :alt: example image
     :width: 60%
-    :align: center 
+    :align: center
 
 PyTest-Locker
 -------------
