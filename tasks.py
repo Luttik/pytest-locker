@@ -12,10 +12,12 @@ def simple_task(name: str, commands: str) -> task:
 make_setup = simple_task(name="make-setup", commands="dephell deps convert")
 
 format = simple_task(name="format", commands="inv black isort")
+lint = simple_task(name="lint", commands="inv flake8 mypy")
 black = simple_task(name="black", commands="black -q .")
 isort = simple_task(name="isort", commands="isort .")
 
 flake8 = simple_task(name="flake8", commands="flake8 .")
+mypy = simple_task(name="mypy", commands="mypy ")
 
 test = simple_task(name="test", commands="pytest --cov")
 

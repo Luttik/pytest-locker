@@ -31,7 +31,7 @@ jobs:
         poetry install 
     - name: Lint with flake8
       run: |
-        flake8 .
+        inv lint
     - name: Test with pytest
       run: |
-        pytest --cov
+        inv test

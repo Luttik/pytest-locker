@@ -1,5 +1,6 @@
 import difflib
 from pathlib import Path
+from typing import Optional
 
 from _pytest.fixtures import FixtureRequest
 from pytest import fixture
@@ -66,7 +67,7 @@ class Locker:
         self.__write_if_accepted(data, lock_path)
 
     def __handle_with_file(
-        self, path: Path, new_data: str, old_data: str, name: str
+        self, path: Path, new_data: str, old_data: str, name: Optional[str]
     ) -> None:
 
         print(
