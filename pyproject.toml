@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pytest-locker"
-version = "0.2.4"
+version = "0.2.5"
 description = """ \
 Used to lock object during testing. \
 Essentially changing assertions from being hard coded to asserting that nothing changed \
@@ -9,6 +9,7 @@ authors = ["Luttik <dtluttik@gmail.com>"]
 readme = "README.rst"
 license = "MIT"
 repository = "https://github.com/Luttik/pytest-locker"
+include = ["src/pytest_locker/py.typed"]
 
 [tool.poetry.dependencies]
 python = "^3.7"
@@ -26,6 +27,7 @@ flake8-black = ">=0.1.1"
 codecov = ">=2.0.22"
 flake8-isort = ">=3.0.0"
 mypy = "^0.812"
+pydantic = "^1.7.3"
 
 [tool.isort]
 include_trailing_comma=true

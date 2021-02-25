@@ -1,6 +1,8 @@
 import difflib
+import json
+from dataclasses import is_dataclass, asdict
 from pathlib import Path
-from typing import Optional
+from typing import Any, Optional, Type
 
 from _pytest.fixtures import FixtureRequest
 from pytest import fixture
@@ -121,6 +123,44 @@ class Locker:
         return is_correct == "y"
 
 
+class DefaultLockerJsonEncoder(json.JSONEncoder):
+    """Enables serialization core and Pydantic Dataclasses"""
+
+    def default(self, obj: Any) -> Any:
+        if any(
+            _class.__module__ == "pydantic.main" and _class.__name__ == "BaseModel"
+            for _class in type(obj).__mro__
+        ):
+            return obj.dict()
+
+        if is_dataclass(obj):
+            return asdict(obj)
+
+        return super().default(obj)
+
+
+class JsonLocker(Locker):
+    """Tries to serialize the given objects to JSON """
+
+    def lock(
+        self,
+        data: Any,
+        name: str = None,
+        extension: str = "json",
+        encoder: Type[json.JSONEncoder] = DefaultLockerJsonEncoder,
+    ) -> None:
+        return super().lock(
+            json.dumps(data, sort_keys=True, cls=encoder, indent=2),
+            name,
+            extension,
+        )
+
+
 @fixture
 def locker(request: FixtureRequest) -> Locker:
     return Locker(request)
+
+
+@fixture
+def json_locker(request: FixtureRequest) -> JsonLocker:
+    return JsonLocker(request)

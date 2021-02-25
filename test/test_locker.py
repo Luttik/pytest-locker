@@ -4,7 +4,7 @@ from unittest.mock import mock_open, patch
 from _pytest.capture import CaptureFixture
 from pytest import raises
 
-from pytest_locker import Locker
+from pytest_locker import Locker, JsonLocker
 from pytest_locker.fixtures import UserDidNotAcceptDataException
 
 
@@ -73,3 +73,36 @@ def test_multiline_diff(locker: Locker, capsys: CaptureFixture) -> None:
     captured_out = captured.out
     with capsys.disabled():
         locker.lock(captured_out, "rhyme_diff")
+
+
+def test_json_locker_default(json_locker: JsonLocker) -> None:
+    json_locker.lock(
+        {"description": "this is some text json", "items": ["items", "should", "work"]}
+    )
+
+
+def test_json_locker_dataclass(json_locker: JsonLocker) -> None:
+    from dataclasses import dataclass
+
+    @dataclass
+    class TestClass:
+        description: str
+
+    json_locker.lock(TestClass(description="this is a test dataclass"))
+
+
+def test_json_locker_pydantic(json_locker: JsonLocker) -> None:
+    from pydantic import BaseModel
+
+    class TestClass(BaseModel):
+        description: str
+
+    json_locker.lock(TestClass(description="this is a test dataclass"))
+
+
+def test_json_locker_unserializable_class(json_locker: JsonLocker) -> None:
+    class TestClass:
+        def __init__(self, description: str):
+            self.description = description
+    with raises(TypeError):
+        json_locker.lock(TestClass(description="this is a test dataclass"))
