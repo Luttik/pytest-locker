@@ -4,7 +4,7 @@ from unittest.mock import mock_open, patch
 from _pytest.capture import CaptureFixture
 from pytest import raises
 
-from pytest_locker import Locker, JsonLocker
+from pytest_locker import JsonLocker, Locker
 from pytest_locker.fixtures import UserDidNotAcceptDataException
 
 
@@ -102,7 +102,8 @@ def test_json_locker_pydantic(json_locker: JsonLocker) -> None:
 
 def test_json_locker_unserializable_class(json_locker: JsonLocker) -> None:
     class TestClass:
-        def __init__(self, description: str):
+        def __init__(self, description: str) -> None:
             self.description = description
+
     with raises(TypeError):
         json_locker.lock(TestClass(description="this is a test dataclass"))

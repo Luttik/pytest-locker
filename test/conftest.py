@@ -1,1 +1,1 @@
-from pytest_locker import locker, json_locker  # noqa
+from pytest_locker import json_locker, locker  # noqa

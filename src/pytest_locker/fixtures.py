@@ -1,6 +1,6 @@
 import difflib
 import json
-from dataclasses import is_dataclass, asdict
+from dataclasses import asdict, is_dataclass
 from pathlib import Path
 from typing import Any, Optional, Type
 
@@ -150,9 +150,7 @@ class JsonLocker(Locker):
         encoder: Type[json.JSONEncoder] = DefaultLockerJsonEncoder,
     ) -> None:
         return super().lock(
-            json.dumps(data, sort_keys=True, cls=encoder, indent=2),
-            name,
-            extension,
+            json.dumps(data, sort_keys=True, cls=encoder, indent=2), name, extension,
         )
 
 
