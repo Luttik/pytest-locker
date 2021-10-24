@@ -1,5 +1,5 @@
 # PyTest-Locker
-<img src="https://raw.githubusercontent.com/Luttik/pytest-locker/master/example.svg" style="width: 60%; margin: auto" alt="Example">
+<img src="https://raw.githubusercontent.com/Luttik/pytest-locker/master/docs/assets/images/example.svg" style="width: 60%; margin: auto" alt="Example">
 
 <p align="center">
     PyTest-Locker: The fasted way to check for unexpected behaviour changes.

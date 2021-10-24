@@ -1,111 +1,102 @@
 ---
 hide:
-  - navigation
+    - navigation
 ---
 
-# auto-optional
-<img src="/assets/images/logo-with-text.svg" style="width: 100%; margin: 32pt 0" alt="Logo">
-
+# PyTest-Locker
+<img src="/assets/images/example.svg" style="width: 60%; margin: auto" alt="Example">
 
 <p align="center">
-    auto-optional: adds the Optional type-hint to arguments where the default value is None
+    PyTest-Locker: The fasted way to check for unexpected behaviour changes.
 </p>
 
 <p align="center">
-    <a href="https://github.com/Luttik/auto-optional/actions?query=workflow%3ACI+branch%3Amaster">
-        <img src="https://github.com/luttik/auto-optional/workflows/CI/badge.svg" alt="actions batch">
+    <a href="https://github.com/Luttik/pytest-locker/actions?query=workflow%3ACI+branch%3Amaster">
+        <img src="https://github.com/luttik/pytest-locker/workflows/CI/badge.svg" alt="actions batch">
     </a>
-    <a href="https://pypi.org/project/auto-optional/">
-        <img src="https://badge.fury.io/py/auto-optional.svg" alt="pypi">
+    <a href="https://pypi.org/project/pytest-locker/">
+        <img src="https://badge.fury.io/py/pytest-locker.svg" alt="pypi">
     </a>
-    <a href="https://pypi.org/project/auto-optional/">
-        <img src="https://shields.io/pypi/pyversions/auto-optional" alt="python versions">
+    <a href="https://pypi.org/project/pytest-locker/">
+        <img src="https://shields.io/pypi/pyversions/pytest-locker" alt="python versions">
     </a>
-    <a href="https://codecov.io/gh/luttik/auto-optional">
-        <img src="https://codecov.io/gh/Luttik/auto-optional/branch/main/graph/badge.svg" alt="codecov">
+    <a href="https://codecov.io/gh/luttik/pytest-locker">
+        <img src="https://codecov.io/gh/Luttik/pytest-locker/branch/master/graph/badge.svg" alt="codecov">
     </a>
-    <a href="https://github.com/Luttik/auto-optional/blob/main/LICENSE">
-        <img src="https://shields.io/github/license/luttik/auto-optional" alt="License: MIT">
+    <a href="https://xgithub.com/Luttik/pytest-locker/blob/master/LICENSE">
+        <img src="https://shields.io/github/license/luttik/pytest-locker" alt="License: MIT">
     </a>
     <a href="https://github.com/psf/black">
         <img src="https://img.shields.io/badge/code%20style-black-000000.svg" alt="Code style: black">
     </a>
 </p>
 
----
+The test-locker can be used to "lock" data from during a test. This
+means that rather than having to manually specify the expected output
+you lock the data when it corresponds to expected bahaviour.
 
-**Documentation**: [auto-optional.daanluttik.nl](https://auto-optional.daanluttik.nl)
+## Why use Locker
 
-**Source Code**: [github.com/luttik/auto-optional](https://github.com/Luttik/auto-optional) 
-
----
-
-## What does auto-optional do
-The basic purpose of auto-optional is ensuring that whenever a default argument is `None` the type annotation is Optional.
-
-For example:
-```py
-def foo(bar: str = None):
-    ...
-```
-
-Would turn into
-
-```py
-from typing import Optional
-def foo(bar: Optional[str] = None):
-    ...
-```
-
-## Why would you want this
-
-- Easily modify external libraries that didn't pay attention 
-  to proper use of optional to improve mypy linting.
-- Force consistency in your own code-base: 
-  Enforcing that `None` parameter implies an `Optional` type. 
-- Explicit is better than implicit — [pep 20](https://www.python.org/dev/peps/pep-0020/)
-
-## In the media:
-auto-optional was covered on 
-[PythonBytes #251](https://pythonbytes.fm/episodes/show/251/a-95-complete-episode-wait-for-it)
-
-> I love these little tools that you can run against your code that will just reformat them to be better.
->
-> — Michael Kennedy
+-   Time efficient: No need to hard code expected responses. (Especially
+    usefull for data heavy unittests)
+-   Easy to verify changes:
+    -   Seperates logic of the test and expected values in the test
+        further
+    -   Lock files, and changes to them, are easy to interpret.
+        Therefore, evaluting them in pull-requests a great method of
+        quality controll.
 
 ## Install
-Install with `pip install auto-optional`.
 
-## Run
-After installing you can run auto-optional using `auto-optional [path]` (path is an optional argument).
+run `pip install pytest-locker`
 
-## pre-commit
+## Use
 
-You can run auto-optional via [pre-commit](https://pre-commit.com/).
-Add the following text to your repositories `.pre-commit-config.yaml`:
+-   *Step 1:* Add `from pytest_locker import locker` to your
+    [conftest.py](https://docs.pytest.org/en/2.7.3/plugins.html?highlight=re)
+    file
+-   *Step 2:* To access the locker by adding it to the method parameters
+    i.e. `def test_example(locker)`
+-   *Step 3:* Use `locker.lock(your_string, optional_name)` to lock the
+    data.
+-   *Additionally:* Don't forget to commit the `.pytest_locker/`
+    directory for ci/cd testing
 
-```yaml
-repos:
-- repo: https://github.com/luttik/auto-optional
-  rev: v0.2.0 # The version of auto-optional to use
-  hooks:
-  - id: auto-optional
-```
+And you're all set!
 
-## Things of note
+## Tip
 
-### Things that are handled well
+When using locks to test your file it is even more important than usual
+that the [pytest
+rootdir](https://docs.pytest.org/en/latest/customize.html) is fixed.
+See [the pytest customize documentation](https://docs.pytest.org/en/latest/customize.html) for
+all the options (one is adding a `pytest.ini` to the root folder).
 
-- The alternatives to `Optional` are supported, that means both;
-    - `Union[X, None]`
-    - `x | None` (allowed since python 3.10+).
-- Existing imports are reused.
-    - `import as` and `from typing import ...` statements are properly handled.
+## The Locker test Flows
 
-### Things that need improvement
-For all these points you can leave a thumbs-up if you want it. Also, I welcome pull-requests for these issues.
+There are two modes based on for locking.
 
-- There is no exclude (for file patterns) option yet [[#2]](https://github.com/Luttik/auto-optional/issues/2)
-- There is no ignore (for code lines) option yet [[#3]](https://github.com/Luttik/auto-optional/issues/3)
-- Code is aways read and written as `UTF-8` (which is accurate most of the time). [[#4]](https://github.com/Luttik/auto-optional/issues/4)
-- There is no `diff` or `check` command yet for a dry-run or linting. [[#5]](https://github.com/Luttik/auto-optional/issues/5)
+-   When user input is allowed, i.e. when running pytest with
+    `--capture  no` or `-s`
+
+    When user input is allowed and the given data does not correspond to
+    the data in the lock the *user is prompted* if the new data should
+    be stored or if the tests should fail.
+
+-   When user input is captured which is default behavior for pytest
+
+    If user input is not allowed the tests will *automatically fail* if
+    the expected lock file does not exist or if the data does not
+    correspond to the data in the lock file.
+
+## The Locker class
+
+You can also use `pytest_locker.Locker` (i.e. the class of which the
+`locker` fixture returns an instance). directly to create fixtures that
+locks a (non-string) object without needing to turn the object into a
+string it.
+
+## Examples
+
+For example of use look at the tests in
+[](https://github.com/Luttik/repr_utils).
