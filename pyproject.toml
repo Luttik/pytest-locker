@@ -28,6 +28,8 @@ codecov = ">=2.0.22"
 flake8-isort = ">=3.0.0"
 mypy = "^0.812"
 pydantic = "^1.7.3"
+mkdocs = "^1.2.2"
+mkdocs-material = "^7.2.6"
 
 [tool.isort]
 include_trailing_comma=true
