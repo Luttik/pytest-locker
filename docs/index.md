@@ -4,10 +4,13 @@ hide:
 ---
 
 # PyTest-Locker
-<img src="/assets/images/example.svg" style="width: 60%; margin: auto" alt="Example">
+
+<div style="width: 400pt; margin: 0 auto">
+    <img src="/assets/images/example.svg" style="max-width: 100%;" alt="Example">
+</div>
 
 <p align="center">
-    PyTest-Locker: The fasted way to check for unexpected behaviour changes.
+    PyTest-Locker: The fasted way to check for unexpected behaviour changes
 </p>
 
 <p align="center">
@@ -31,9 +34,13 @@ hide:
     </a>
 </p>
 
-The test-locker can be used to "lock" data from during a test. This
+The test-locker can be used to "lock" data during a test. This
 means that rather than having to manually specify the expected output
-you lock the data when it corresponds to expected bahaviour.
+you lock the data when it corresponds to expected bahaviour, 
+afterwards you only need to check if the data has not changed.
+
+Data can be a response, but state and previous calls can also be represented as data. 
+This gives you the option to "lock" just about anything that your software does using this library.
 
 ## Why use Locker
 
@@ -50,40 +57,38 @@ you lock the data when it corresponds to expected bahaviour.
 
 run `pip install pytest-locker`
 
-## Use
+## Usage
 
--   *Step 1:* Add `from pytest_locker import locker` to your
+### Configuring the project and writing your first test.
+
+1. Add `from pytest_locker import locker` to your
     [conftest.py](https://docs.pytest.org/en/2.7.3/plugins.html?highlight=re)
     file
--   *Step 2:* To access the locker by adding it to the method parameters
+2. To access the locker by adding it to the method parameters
     i.e. `def test_example(locker)`
--   *Step 3:* Use `locker.lock(your_string, optional_name)` to lock the
-    data.
--   *Additionally:* Don't forget to commit the `.pytest_locker/`
-    directory for ci/cd testing
+3. Use `locker.lock(your_string, optional_name)` to lock the
+    data. 
+4. Ensure that the [pytest rootdir](https://docs.pytest.org/en/latest/customize.html) is fixed.
+    See [the pytest customize documentation](https://docs.pytest.org/en/latest/customize.html) for
+    all the options (one is adding a `pytest.ini` to the root folder) 
+5. Ensure that `.pytest_locker/` is synced via git, to ensure that you, your team, and your CI/CD pipelines are working 
+    with the same data.
 
 And you're all set!
 
-## Tip
 
-When using locks to test your file it is even more important than usual
-that the [pytest
-rootdir](https://docs.pytest.org/en/latest/customize.html) is fixed.
-See [the pytest customize documentation](https://docs.pytest.org/en/latest/customize.html) for
-all the options (one is adding a `pytest.ini` to the root folder).
+### Accepting the current behavior and checking fo changes in this behavior
 
-## The Locker test Flows
+There are two modes based on for locking. The first is 
 
-There are two modes based on for locking.
-
--   When user input is allowed, i.e. when running pytest with
+1. When user input is allowed, i.e. when running pytest with
     `--capture  no` or `-s`
 
     When user input is allowed and the given data does not correspond to
     the data in the lock the *user is prompted* if the new data should
     be stored or if the tests should fail.
 
--   When user input is captured which is default behavior for pytest
+2. When user input is captured which is default behavior for pytest
 
     If user input is not allowed the tests will *automatically fail* if
     the expected lock file does not exist or if the data does not
@@ -92,7 +97,7 @@ There are two modes based on for locking.
 ## The Locker class
 
 You can also use `pytest_locker.Locker` (i.e. the class of which the
-`locker` fixture returns an instance). directly to create fixtures that
+`locker` fixture returns an instance) directly to create fixtures that
 locks a (non-string) object without needing to turn the object into a
 string it.
 
