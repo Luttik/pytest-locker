@@ -97,7 +97,8 @@ class Locker:
 
     def get_diff(self, old_data: str, new_data: str) -> str:
         diff = difflib.unified_diff(
-            old_data.splitlines(True), new_data.splitlines(True),
+            old_data.splitlines(True),
+            new_data.splitlines(True),
         )
 
         ignored_from_file, ignored_to_file = next(diff), next(diff)  # noqa
@@ -140,7 +141,7 @@ class DefaultLockerJsonEncoder(json.JSONEncoder):
 
 
 class JsonLocker(Locker):
-    """Tries to serialize the given objects to JSON """
+    """Tries to serialize the given objects to JSON"""
 
     def lock(
         self,
@@ -150,7 +151,9 @@ class JsonLocker(Locker):
         encoder: Type[json.JSONEncoder] = DefaultLockerJsonEncoder,
     ) -> None:
         return super().lock(
-            json.dumps(data, sort_keys=True, cls=encoder, indent=2), name, extension,
+            json.dumps(data, sort_keys=True, cls=encoder, indent=2),
+            name,
+            extension,
         )
 
 

@@ -6,9 +6,11 @@ Used to lock object during testing. \
 Essentially changing assertions from being hard coded to asserting that nothing changed \
 """
 authors = ["Luttik <dtluttik@gmail.com>"]
-readme = "README.rst"
+readme = "README.md"
 license = "MIT"
 repository = "https://github.com/Luttik/pytest-locker"
+homepage = "https://pytest-locker.daanluttik.nl"
+documentation = "https://pytest-locker.daanluttik.nl"
 include = ["src/pytest_locker/py.typed"]
 
 [tool.poetry.dependencies]
