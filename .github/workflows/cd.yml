@@ -7,10 +7,6 @@ on:
   push:
     tags:
       - 'v*'
-    branches:
-      - main
-      - master
-      - master
 jobs:
   build-python:
     runs-on: ubuntu-latest
