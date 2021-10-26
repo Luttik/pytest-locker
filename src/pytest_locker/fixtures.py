@@ -40,7 +40,7 @@ class Locker:
         """
         self.call_counter += 1
         base = self.__get_lock_base_path()
-        lock_path = Path(f"{base}.{name if name else self.call_counter}.{extension}")
+        lock_path = Path(f'{base}.{name or self.call_counter}.{extension}')
         if lock_path.exists():
             with lock_path.open("r", encoding=ENCODING) as file:
                 old_data = file.read()
