@@ -3,11 +3,11 @@
     <img src="https://raw.githubusercontent.com/Luttik/pytest-locker/master/docs/assets/images/example.svg" style="max-width: 100%;" alt="Example">
 </div>
 
-<p style="text-align: center">
+<p align="center">
     PyTest-Locker: The fasted way to check for unexpected behaviour changes
 </p>
 
-<p style="text-align: center">
+<p align="center">
     <a href="https://github.com/Luttik/pytest-locker/actions?query=workflow%3ACI+branch%3Amaster">
         <img src="https://github.com/luttik/pytest-locker/workflows/CI/badge.svg" alt="actions batch">
     </a>
