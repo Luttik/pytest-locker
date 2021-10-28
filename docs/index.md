@@ -2,7 +2,6 @@
 hide:
     - navigation
 ---
-
 # PyTest-Locker
 
 <div style="width: 400pt; margin: 0 auto">
@@ -34,7 +33,7 @@ hide:
     </a>
 </p>
 
-# The general concept
+## The general concept
 In essense Pytest-Locker changes the basis of testing from having to assert everything that is relevant about an object
 to only having to assert that an object should not change unexpectedly (i.e. the object is locked). 
 
