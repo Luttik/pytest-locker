@@ -1,10 +1,6 @@
----
-hide:
-    - navigation
----
 # PyTest-Locker
 
-<img src="https://raw.githubusercontent.com/Luttik/pytest-locker/master/docs/assets/images/example.svg" style="width: 100%; margin: 32pt 0" alt="Example">
+<img src="https://raw.githubusercontent.com/Luttik/pytest-locker/master/docs/assets/images/logo-with-text.svg" style="width: 100%; margin: 32pt 0" alt="Example">
 
 <p align="center">
     PyTest-Locker: The fastest way to check for unexpected changes between test runs
@@ -45,7 +41,7 @@ you can use this approach for just about everything.
 Since you need to validate if the object to lock is correct, both in the first run and after desired modifications,
 the test flow is slightly different:
 
-<img class="invert-in-dark-mode" src="/assets/images/pytest-locker-diagram.svg" alt="pytest-locker's flow diagram"/>
+<img class="invert-in-dark-mode" src="https://raw.githubusercontent.com/Luttik/pytest-locker/master/docs    /assets/images/pytest-locker-diagram.svg" alt="pytest-locker's flow diagram"/>
 
 
 ## Why use PyTest-Locker
