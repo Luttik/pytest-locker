@@ -50,6 +50,10 @@ b, strong {
     font-weight: 600;
 }
 
+[data-md-color-scheme="slate"] .invert-in-dark-mode {
+    filter: invert(1);
+}
+
 .md-header {
     box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.1) !important;
 }
