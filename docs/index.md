@@ -4,12 +4,10 @@ hide:
 ---
 # PyTest-Locker
 
-<div style="width: 400pt; margin: 0 auto">
-    <img src="/assets/images/example.svg" style="max-width: 100%;" alt="Example">
-</div>
+<img src="/assets/images/logo-with-text.svg" style="width: 100%; margin: 32pt 0" alt="Example">
 
 <p align="center">
-    PyTest-Locker: The fasted way to check for unexpected behaviour changes
+    PyTest-Locker: The fastest way to check for unexpected changes between test runs
 </p>
 
 <p align="center">
@@ -35,12 +33,12 @@ hide:
 
 ## The general concept
 In essense Pytest-Locker changes the basis of testing from having to assert everything that is relevant about an object
-to only having to assert that an object should not change unexpectedly (i.e. the object is locked). 
+to only having to assert that an object should not change unexpectedly (i.e. the object is locked).
 
-This, of course, implies that the pytest-locker approach makes a lot of sense 
+This, of course, implies that the pytest-locker approach makes a lot of sense
 when the assertion logic becomes complex. I found it especially handy when testing if I'm sending the right API calls.
 
-Since objects can be just about anything in python 
+Since objects can be just about anything in python
 (output, state, or even function calls via [mocking](https://docs.python.org/3/library/unittest.mock.html))
 you can use this approach for just about everything.
 
