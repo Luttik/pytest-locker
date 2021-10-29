@@ -42,7 +42,7 @@ def test_locker_with_wrong_data(locker: Locker) -> None:
 @patch("builtins.input", lambda *args: "y")
 def test_locker_without_file_accepted(locker: Locker) -> None:
     io_mocker = mock_open()
-    with patch("io.open", io_mocker):
+    with patch.object(Path, "open", io_mocker):
         value = "File has different context"
         locker.lock(value)
         write_calls = [call for call in io_mocker.mock_calls if call[0] == "().write"]
