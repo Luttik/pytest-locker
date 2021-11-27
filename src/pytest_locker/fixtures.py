@@ -48,7 +48,7 @@ class Locker:
             A subtype of JSONEncoder can be used to easily handle types that are
             not serializable to JSON by default.
         """
-        parsed_data = encoder.default(data, encoder)
+        parsed_data = encoder().default(data)
 
         self.call_counter += 1
         base = self.__get_lock_base_path()
@@ -63,7 +63,7 @@ class Locker:
         else:
             self.__handle_new_value(parsed_data, lock_path)
 
-    def __handle_new_value(self, data: str, lock_path: Path) -> None:
+    def __handle_new_value(self, data: Any, lock_path: Path) -> None:
         print(
             "\n".join(
                 [
@@ -72,7 +72,7 @@ class Locker:
                     "Check the data manually.",
                     "DATA:",
                     SEPERATOR,
-                    data,
+                    json.dumps(data, indent=2),
                     SEPERATOR,
                     "\n\n",
                 ]

@@ -19,7 +19,7 @@ isort = simple_task(name="isort", commands="isort .")
 isort_check = simple_task(name="isort-check", commands="isort . --check --diff")
 
 flake8 = simple_task(name="flake8", commands="flake8 .")
-mypy = simple_task(name="mypy", commands="mypy ")
+mypy = simple_task(name="mypy", commands="mypy src test --namespace-packages")
 
 test = simple_task(name="test", commands="pytest --cov")
 

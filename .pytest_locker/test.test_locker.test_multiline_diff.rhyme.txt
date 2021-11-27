@@ -1,5 +1,0 @@
-This rihme rhyme
-Ain't single-line
-See, the changes printing is neat
-
-Even after some whitespace

@@ -16,4 +16,4 @@ class DefaultLockerJsonEncoder(json.JSONEncoder):
         if is_dataclass(obj):
             return asdict(obj)
 
-        return super().default(obj)
+        return obj
