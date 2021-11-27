@@ -1,30 +1,52 @@
+import json
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
 from _pytest.capture import CaptureFixture
 from pytest import raises
 
-from pytest_locker import JsonLocker, Locker
+from pytest_locker import Locker
 from pytest_locker.fixtures import UserDidNotAcceptDataException
 
 
-def test_locker(locker: Locker) -> None:
+def test_str_locker(locker: Locker) -> None:
     value = "test string 1"
     locker.lock(value)
     rootdir = Path(locker.request.session.fspath).absolute()
-    with open(f"{rootdir}/.pytest_locker/test.test_locker.test_locker.1.txt") as lock:
-        assert lock.read() == value
+    with open(
+        f"{rootdir}/.pytest_locker/test.test_locker.test_str_locker.1.txt"
+    ) as lock:
+        assert lock.read() == f"{value}"
 
 
-def test_locker_with_name(locker: Locker) -> None:
+def test_str_locker_with_name(locker: Locker) -> None:
     value = "test string 2"
     locker.lock(value, "this is my name")
     rootdir = Path(locker.request.session.fspath).absolute()
     with open(
         f"{rootdir}/.pytest_locker/test.test_locker"
-        ".test_locker_with_name.this is my name.txt"
+        ".test_str_locker_with_name.this is my name.txt"
     ) as lock:
-        assert lock.read() == value
+        assert lock.read() == f"{value}"
+
+
+def test_locker(locker: Locker) -> None:
+    value = {"a": 1, "b": [1, "a"]}
+    locker.lock(value)
+    rootdir = Path(locker.request.session.fspath).absolute()
+    with open(f"{rootdir}/.pytest_locker/test.test_locker.test_locker.1.json") as lock:
+        assert json.load(lock) == value
+
+
+def test_locker_with_name(locker: Locker) -> None:
+    value = {"a": 1, "b": [1, "a"]}
+    locker.lock(value, "this is my name")
+    rootdir = Path(locker.request.session.fspath).absolute()
+    with open(
+        f"{rootdir}/.pytest_locker/test.test_locker"
+        ".test_locker_with_name.this is my name.json"
+    ) as lock:
+        assert json.load(lock) == value
 
 
 @patch("builtins.input", lambda *args: "n")
@@ -54,6 +76,7 @@ def test_locker_without_file_accepted(locker: Locker) -> None:
 
 
 def test_multiline_diff(locker: Locker, capsys: CaptureFixture) -> None:
+    # The test input
     rhyme = "\n".join(
         x.strip()
         for x in """
@@ -65,45 +88,48 @@ def test_multiline_diff(locker: Locker, capsys: CaptureFixture) -> None:
             "\n"
         )
     )
+    # Get the error when the user doesn't accept the input
     with patch("builtins.input", lambda *args: "n"), raises(
         UserDidNotAcceptDataException
     ):
         locker.lock(rhyme, "rhyme")
     captured = capsys.readouterr()
     captured_out = captured.out
+
+    # Lock the exception-text from the last lock call.
     with capsys.disabled():
         locker.lock(captured_out, "rhyme_diff")
 
 
-def test_json_locker_default(json_locker: JsonLocker) -> None:
-    json_locker.lock(
+def test_json_locker_default(locker: Locker) -> None:
+    locker.lock(
         {"description": "this is some text json", "items": ["items", "should", "work"]}
     )
 
 
-def test_json_locker_dataclass(json_locker: JsonLocker) -> None:
+def test_json_locker_dataclass(locker: Locker) -> None:
     from dataclasses import dataclass
 
     @dataclass
     class TestClass:
         description: str
 
-    json_locker.lock(TestClass(description="this is a test dataclass"))
+    locker.lock(TestClass(description="this is a test dataclass"))
 
 
-def test_json_locker_pydantic(json_locker: JsonLocker) -> None:
+def test_json_locker_pydantic(locker: Locker) -> None:
     from pydantic import BaseModel
 
     class TestClass(BaseModel):
         description: str
 
-    json_locker.lock(TestClass(description="this is a test dataclass"))
+    locker.lock(TestClass(description="this is a test dataclass"))
 
 
-def test_json_locker_unserializable_class(json_locker: JsonLocker) -> None:
+def test_json_locker_unserializable_class(locker: Locker) -> None:
     class TestClass:
         def __init__(self, description: str) -> None:
             self.description = description
 
     with raises(TypeError):
-        json_locker.lock(TestClass(description="this is a test dataclass"))
+        locker.lock(TestClass(description="this is a test dataclass"))

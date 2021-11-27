@@ -1,11 +1,12 @@
 import difflib
 import json
-from dataclasses import asdict, is_dataclass
 from pathlib import Path
 from typing import Any, Optional, Type
 
 from _pytest.fixtures import FixtureRequest
 from pytest import fixture
+
+from pytest_locker.encoder import DefaultLockerJsonEncoder
 
 
 class UserDidNotAcceptDataException(Exception):
@@ -29,29 +30,44 @@ class Locker:
             f".pytest_locker/{node.module.__name__}.{node.name}"
         ).absolute()
 
-    def lock(self, data: str, name: str = None, extension: str = "txt") -> None:
+    def lock(
+        self,
+        data: Any,
+        name: str = None,
+        encoder: Type[json.JSONEncoder] = DefaultLockerJsonEncoder,
+    ) -> None:
         """
         Checks if the given data equals the data in a lock file.
         Otherwise prompts the user if the data is correct.
 
         :param data: The data to lock.
         :param name: The name of the locked file (appended to the test name)
-        :param extension: The file extension based for the locked file.
+        :param encoder:
+            A subtype of JSONEncoder can be used to easily handle types that are
+            not serializable to JSON by default.
         """
+        is_string: bool = isinstance(data, str)
+
+        parsed_data = data if is_string else encoder().default(data)
+
+        extension = "txt" if is_string else "json"
+
         self.call_counter += 1
         base = self.__get_lock_base_path()
         lock_path = Path(f"{base}.{name or self.call_counter}.{extension}")
         if lock_path.exists():
             with lock_path.open("r", encoding=ENCODING) as file:
-                old_data = file.read()
-            if old_data == data:
+                old_data = file.read() if is_string else json.load(file)
+            if old_data == parsed_data:
                 return
             else:
-                self.__handle_with_file(lock_path, data, old_data, name)
+                self.__handle_with_file(
+                    lock_path, parsed_data, old_data, name, is_string
+                )
         else:
-            self.__handle_new_value(data, lock_path)
+            self.__handle_new_value(parsed_data, lock_path, is_string)
 
-    def __handle_new_value(self, data: str, lock_path: Path) -> None:
+    def __handle_new_value(self, data: Any, lock_path: Path, is_string: bool) -> None:
         print(
             "\n".join(
                 [
@@ -60,16 +76,21 @@ class Locker:
                     "Check the data manually.",
                     "DATA:",
                     SEPERATOR,
-                    data,
+                    data if is_string else json.dumps(data, indent=2),
                     SEPERATOR,
                     "\n\n",
                 ]
             )
         )
-        self.__write_if_accepted(data, lock_path)
+        self.__write_if_accepted(data, lock_path, is_string)
 
     def __handle_with_file(
-        self, path: Path, new_data: str, old_data: str, name: Optional[str]
+        self,
+        path: Path,
+        new_data: Any,
+        old_data: Any,
+        name: Optional[str],
+        is_string: bool,
     ) -> None:
 
         print(
@@ -80,11 +101,11 @@ class Locker:
                     "the response and lock was found:",
                     "LOCKED VALUE: ",
                     SEPERATOR,
-                    old_data,
+                    old_data if is_string else json.dumps(old_data, indent=2),
                     SEPERATOR,
                     "\nNEW VALUE: ",
                     SEPERATOR,
-                    new_data,
+                    new_data if is_string else json.dumps(new_data, indent=2),
                     SEPERATOR,
                     "\nDIFF:",
                     SEPERATOR,
@@ -93,7 +114,9 @@ class Locker:
                 ]
             )
         )
-        self.__write_if_accepted(new_data, path, "Do you accept the new data? (y|n)")
+        self.__write_if_accepted(
+            new_data, path, is_string, "Do you accept the new data? (y|n)"
+        )
 
     def get_diff(self, old_data: str, new_data: str) -> str:
         diff = difflib.unified_diff(
@@ -106,12 +129,19 @@ class Locker:
         return "".join(diff)
 
     def __write_if_accepted(
-        self, data: str, lock_path: Path, acceptance_request: str = None
+        self,
+        data: str,
+        lock_path: Path,
+        is_string: bool,
+        acceptance_request: str = None,
     ) -> None:
         lock_path.parent.mkdir(parents=True, exist_ok=True)
         if self.__user_accepts(acceptance_request):
             with lock_path.open("w", encoding=ENCODING) as file:
-                file.write(data)
+                if is_string:
+                    file.write(data)
+                else:
+                    json.dump(data, file, sort_keys=True, indent=2)
             return
         else:
             raise UserDidNotAcceptDataException()
@@ -124,44 +154,6 @@ class Locker:
         return is_correct == "y"
 
 
-class DefaultLockerJsonEncoder(json.JSONEncoder):
-    """Enables serialization core and Pydantic Dataclasses"""
-
-    def default(self, obj: Any) -> Any:
-        if any(
-            _class.__module__ == "pydantic.main" and _class.__name__ == "BaseModel"
-            for _class in type(obj).__mro__
-        ):
-            return obj.dict()
-
-        if is_dataclass(obj):
-            return asdict(obj)
-
-        return super().default(obj)
-
-
-class JsonLocker(Locker):
-    """Tries to serialize the given objects to JSON"""
-
-    def lock(
-        self,
-        data: Any,
-        name: str = None,
-        extension: str = "json",
-        encoder: Type[json.JSONEncoder] = DefaultLockerJsonEncoder,
-    ) -> None:
-        return super().lock(
-            json.dumps(data, sort_keys=True, cls=encoder, indent=2),
-            name,
-            extension,
-        )
-
-
 @fixture
 def locker(request: FixtureRequest) -> Locker:
     return Locker(request)
-
-
-@fixture
-def json_locker(request: FixtureRequest) -> JsonLocker:
-    return JsonLocker(request)

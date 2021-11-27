@@ -4,7 +4,6 @@ LOCKED VALUE:
 This rihme rhyme
 Ain't single-line
 See, the changes printing is neat
-
 Even after some whitespace
 
 ----------------------------------------
@@ -20,14 +19,14 @@ Even after a blank line
 
 DIFF:
 ----------------------------------------
-@@ -1,5 +1,5 @@
+@@ -1,4 +1,5 @@
 -This rihme rhyme
 -Ain't single-line
 -See, the changes printing is neat
+-Even after some whitespace
 +This rhyme rhyme
 +Is multi-line
 +Observe, the difference printing is sublime
- 
--Even after some whitespace
++
 +Even after a blank line
 ----------------------------------------
