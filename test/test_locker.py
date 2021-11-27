@@ -1,3 +1,4 @@
+import json
 from pathlib import Path
 from unittest.mock import mock_open, patch
 
@@ -34,7 +35,7 @@ def test_locker(locker: Locker) -> None:
     locker.lock(value)
     rootdir = Path(locker.request.session.fspath).absolute()
     with open(f"{rootdir}/.pytest_locker/test.test_locker.test_locker.1.json") as lock:
-        assert lock.read() == f"{value}"
+        assert json.load(lock) == value
 
 
 def test_locker_with_name(locker: Locker) -> None:
@@ -45,7 +46,7 @@ def test_locker_with_name(locker: Locker) -> None:
         f"{rootdir}/.pytest_locker/test.test_locker"
         ".test_locker_with_name.this is my name.json"
     ) as lock:
-        assert lock.read() == f"{value}"
+        assert json.load(lock) == value
 
 
 @patch("builtins.input", lambda *args: "n")
