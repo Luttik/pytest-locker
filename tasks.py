@@ -1,7 +1,9 @@
+from typing import Callable
+
 from invoke import task
 
 
-def simple_task(name: str, commands: str) -> task:
+def simple_task(name: str, commands: str) -> Callable:
     def caller(c):  # noqa
         c.run(f"echo running {name}")
         c.run(commands)
