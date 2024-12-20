@@ -8,8 +8,7 @@ from _pytest.fixtures import FixtureRequest
 from pytest import fixture
 
 
-class UserDidNotAcceptDataException(Exception):
-    ...
+class UserDidNotAcceptDataException(Exception): ...
 
 
 ENCODING = "UTF8"
@@ -29,7 +28,7 @@ class Locker:
             f".pytest_locker/{node.module.__name__}.{node.name}"
         ).absolute()
 
-    def lock(self, data: str, name: str = None, extension: str = "txt") -> None:
+    def lock(self, data: str, name: Optional[str] = None, extension: str = "txt") -> None:
         """
         Checks if the given data equals the data in a lock file.
         Otherwise prompts the user if the data is correct.
@@ -106,7 +105,7 @@ class Locker:
         return "".join(diff)
 
     def __write_if_accepted(
-        self, data: str, lock_path: Path, acceptance_request: str = None
+        self, data: str, lock_path: Path, acceptance_request: Optional[str] = None
     ) -> None:
         lock_path.parent.mkdir(parents=True, exist_ok=True)
         if self.__user_accepts(acceptance_request):
@@ -117,7 +116,7 @@ class Locker:
             raise UserDidNotAcceptDataException()
 
     @classmethod
-    def __user_accepts(cls, acceptance_request: str = None) -> bool:
+    def __user_accepts(cls, acceptance_request: Optional[str] = None) -> bool:
         is_correct = None
         while is_correct not in ["y", "n"]:
             is_correct = input(acceptance_request or "Is this correct? (y|n)").lower()
@@ -135,7 +134,7 @@ class DefaultLockerJsonEncoder(json.JSONEncoder):
             return obj.dict()
 
         if is_dataclass(obj):
-            return asdict(obj)
+            return asdict(obj)  # type: ignore
 
         return super().default(obj)
 
@@ -146,7 +145,7 @@ class JsonLocker(Locker):
     def lock(
         self,
         data: Any,
-        name: str = None,
+        name: Optional[str] = None,
         extension: str = "json",
         encoder: Type[json.JSONEncoder] = DefaultLockerJsonEncoder,
     ) -> None:
