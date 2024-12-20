@@ -14,19 +14,19 @@ documentation = "https://pytest-locker.daanluttik.nl"
 include = ["src/pytest_locker/py.typed"]
 
 [tool.poetry.dependencies]
-python = "^3.7"
+python = "^3.9"
 pytest = ">=5.4"
 
 [tool.poetry.dev-dependencies]
 invoke = ">=1.4.1"
-black = ">=19.10b0"
+black = ">=24.10.0"
 flake8 = ">=3.8.2"
 flake8-annotations = ">=2.0.1"
 isort = ">=4.3.21"
 coverage = { extras = ["toml"], version = ">=5.0.4" }
-pytest-cov = ">=.8.1"
+pytest-cov = ">=2.8.1"
 codecov = ">=2.0.22"
-mypy = { version = "^0.812", python = "< 3.10" }  # mypy isn't yet working for python 3.10
+mypy = ">=1.13.0"  # mypy isn't yet working for python 3.10
 pydantic = "^1.7.3"
 mkdocs = "^1.2.2"
 mkdocs-material = "^7.2.6"
